@@ -21,11 +21,11 @@ import java.util.concurrent.atomic.AtomicLong;
  */
 public class CustomizeDefaultFieldDeserializer extends DefaultFieldDeserializer {
 
-    private Map<String, String> languageConfig;
+    private DeserializerValueMutator[] valueMutators;
 
-    public CustomizeDefaultFieldDeserializer(ParserConfig config, Class<?> clazz, FieldInfo fieldInfo, Map<String, String> languageConfig) {
+    public CustomizeDefaultFieldDeserializer(ParserConfig config, Class<?> clazz, FieldInfo fieldInfo,DeserializerValueMutator[] valueMutators) {
         super(config, clazz, fieldInfo);
-        this.languageConfig = languageConfig;
+        this.valueMutators = valueMutators;
     }
 
     public void setValue(Object object, Object value) {
@@ -37,8 +37,12 @@ public class CustomizeDefaultFieldDeserializer extends DefaultFieldDeserializer 
                 && fieldInfo.format.equals("trim")){
             value = ((String) value).trim();
         }
-        value = DeserializerUtils.deserializer(value, languageConfig);
         try {
+            if (valueMutators != null && valueMutators.length > 0){
+                for (DeserializerValueMutator mutator : valueMutators){
+                    value = mutator.process(object,fieldInfo.field.getAnnotations(), fieldInfo.name, value);
+                }
+            }
             Method method = fieldInfo.method;
             if (method != null) {
                 if (fieldInfo.getOnly) {

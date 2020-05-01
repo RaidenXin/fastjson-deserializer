@@ -12,13 +12,13 @@ import java.util.Map;
  */
 public final class DeserializerUtils {
 
-    public static final String deserializer(Object value, Map<String, String> languageConfig){
+    public static final Object deserializer(Object value, Map<String, String> languageConfig){
         String result = null;
         if (value.getClass() == String.class && StringUtils.contains((result = ((String) value).trim()), CustomizeStaticConfig.I18N_KEY)){
             int indexOf = result.indexOf(CustomizeStaticConfig.I18N_KEY) + CustomizeStaticConfig.I18N_KEY.length();
             String key = StringUtils.substring(result, indexOf);
-            result = languageConfig.getOrDefault(key, result);
+            return languageConfig.getOrDefault(key, result);
         }
-        return result;
+        return value;
     }
 }

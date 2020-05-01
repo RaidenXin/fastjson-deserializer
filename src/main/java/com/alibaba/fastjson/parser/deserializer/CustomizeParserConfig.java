@@ -8,8 +8,6 @@ import com.alibaba.fastjson.util.JavaBeanInfo;
 import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
-
 /**
  * @创建人:Raiden
  * @Descriotion:
@@ -18,12 +16,11 @@ import java.util.Map;
  */
 public class CustomizeParserConfig extends ParserConfig {
 
-    private Map<String, String> languageConfig;
+    private DeserializerValueMutator[] valueMutators;
 
-    public CustomizeParserConfig(Map<String, String> languageConfig){
+    public CustomizeParserConfig(DeserializerValueMutator[] valueMutators){
         super();
-        this.languageConfig = languageConfig;
-        putDeserializer(String.class, new CustomizeStringCodec(languageConfig));
+        this.valueMutators = valueMutators;
     }
 
     public FieldDeserializer createFieldDeserializer(ParserConfig mapping, //
@@ -42,10 +39,9 @@ public class CustomizeParserConfig extends ParserConfig {
         }
 
         if (deserializeUsing == null && (fieldClass == List.class || fieldClass == ArrayList.class)) {
-            return new ArrayListTypeFieldDeserializer(mapping, clazz, fieldInfo);
+            return new CustomizeArrayListTypeFieldDeserializer(mapping, clazz, fieldInfo, valueMutators);
         }
-
-        return new CustomizeDefaultFieldDeserializer(mapping, clazz, fieldInfo, languageConfig);
+        return new CustomizeDefaultFieldDeserializer(mapping, clazz, fieldInfo, valueMutators);
     }
 
     public ObjectDeserializer createJavaBeanDeserializer(Class<?> clazz, Type type) {
