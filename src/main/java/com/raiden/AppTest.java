@@ -1,6 +1,7 @@
 package com.raiden;
 
 import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.parser.deserializer.CustomizeJSON;
 import com.alibaba.fastjson.parser.deserializer.CustomizeParserConfig;
 import com.raiden.model.Administration;
 import com.raiden.model.LRUList;
@@ -80,9 +81,9 @@ public class AppTest {
         zh.put("5", "高三三班");
         zh.put("1", "你好");
         zh.put("2", "欢迎回家");
-
-        User user = JSON.parseObject(userStr, User.class, new CustomizeParserConfig(zh));
-        System.err.println(user);
+//
+//        User user = JSON.parseObject(userStr, User.class, new CustomizeParserConfig(zh));
+//        System.err.println(user);
         String string = "{\n" +
                 "\t\"users\": [{\n" +
                 "\t\t\"id\": \"I18nKey:4\",\n" +
@@ -93,7 +94,7 @@ public class AppTest {
                 "\t}],\n" +
                 "\t\"memberId\":\"2020\"\n" +
                 "}";
-        Administration administration = JSON.parseObject(string, Administration.class, new CustomizeParserConfig(en));
+        Administration administration = CustomizeJSON.parseObject(string, Administration.class, new CoustomizeValueMutator(zh));
         System.err.println(administration);
     }
 

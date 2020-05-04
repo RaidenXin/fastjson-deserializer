@@ -7,4 +7,5 @@ package com.raiden.model;
  * @Modified By:
  */
 public class Peple {
+
 }

@@ -1,6 +1,8 @@
 package com.alibaba.fastjson.parser.deserializer;
 
 import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.parser.Feature;
+import com.alibaba.fastjson.parser.ParserConfig;
 
 import java.lang.reflect.Type;
 
@@ -14,5 +16,9 @@ public final class CustomizeJSON {
 
     public static <T> T parseObject(String input,Type clazz,DeserializerValueMutator... valueMutators) {
         return JSON.parseObject(input, clazz, new CustomizeParserConfig(valueMutators));
+    }
+
+    public static <T> T parseObject(String json, Type type,DeserializerValueMutator[] valueMutators, Feature... features) {
+        return JSON.parseObject(json, type, new CustomizeParserConfig(valueMutators), features);
     }
 }
