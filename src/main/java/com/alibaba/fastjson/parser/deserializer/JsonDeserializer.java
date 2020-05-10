@@ -1,7 +1,5 @@
 package com.alibaba.fastjson.parser.deserializer;
 
-import com.alibaba.fastjson.annotation.JSONField;
-
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
@@ -16,4 +14,9 @@ import java.lang.annotation.Target;
 @Retention(RetentionPolicy.RUNTIME)
 @Target({ ElementType.TYPE })
 public @interface JsonDeserializer {
+    /**
+     * 注意这里只能放无参构造函数的修改器 否则会创建失败
+     * @return
+     */
+    Class<? extends DeserializerValueMutator>[] valueMutators() default {};
 }

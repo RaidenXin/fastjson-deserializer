@@ -18,6 +18,9 @@ public class CustomizeParserConfig extends ParserConfig {
 
     private DeserializerValueMutator[] valueMutators;
 
+    public CustomizeParserConfig(){
+    }
+
     public CustomizeParserConfig(DeserializerValueMutator[] valueMutators){
         super();
         this.valueMutators = valueMutators;
@@ -47,7 +50,22 @@ public class CustomizeParserConfig extends ParserConfig {
     public ObjectDeserializer createJavaBeanDeserializer(Class<?> clazz, Type type) {
         JsonDeserializer i18N = clazz.getAnnotation(JsonDeserializer.class);
         if (i18N != null){
-            return new JavaBeanDeserializer(this, clazz);
+            Class<? extends DeserializerValueMutator>[] classes = i18N.valueMutators();
+            if (this.valueMutators == null && classes != null){
+                List<DeserializerValueMutator> mutators = new ArrayList<>();
+                for (Class<? extends DeserializerValueMutator> c : classes) {
+                    try {
+                        DeserializerValueMutator mutator = c.newInstance();
+                        mutators.add(mutator);
+                    } catch (Exception e) {
+                        //如果创建失败了就忽略掉这次错误
+                    }
+                }
+                this.valueMutators = mutators.toArray(new DeserializerValueMutator[]{});
+            }
+            if (valueMutators != null){
+                return new JavaBeanDeserializer(this, clazz);
+            }
         }
         return super.createJavaBeanDeserializer(clazz, type);
     }

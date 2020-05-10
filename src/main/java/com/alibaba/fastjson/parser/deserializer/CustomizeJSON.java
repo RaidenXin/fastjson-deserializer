@@ -20,4 +20,12 @@ public final class CustomizeJSON {
     public static <T> T parseObject(String json, Type type,DeserializerValueMutator[] valueMutators, Feature... features) {
         return JSON.parseObject(json, type, new CustomizeParserConfig(valueMutators), features);
     }
+
+    public static <T> T parseObject(String json, Type type,Feature... features) {
+        return JSON.parseObject(json, type, new CustomizeParserConfig(), features);
+    }
+
+    public static <T> T parseObject(String json, Type type) {
+        return JSON.parseObject(json, type, new CustomizeParserConfig());
+    }
 }
