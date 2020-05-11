@@ -2,12 +2,12 @@ package com.raiden;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.parser.deserializer.CustomizeJSON;
-import com.alibaba.fastjson.parser.deserializer.CustomizeParserConfig;
-import com.raiden.model.Administration;
-import com.raiden.model.LRUList;
-import com.raiden.model.Node;
-import com.raiden.model.User;
+import com.raiden.model.*;
+import com.raiden.util.DiscountFormatUtil;
 import org.junit.jupiter.api.Test;
+
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
 import java.util.*;
 
 /**
@@ -94,7 +94,7 @@ public class AppTest {
                 "\t}],\n" +
                 "\t\"memberId\":\"2020\"\n" +
                 "}";
-        Administration administration = CustomizeJSON.parseObject(string, Administration.class, new CoustomizeValueMutator(zh));
+        Administration administration = CustomizeJSON.parseObject(string, Administration.class);
         System.err.println(administration);
     }
 
@@ -112,5 +112,27 @@ public class AppTest {
         }
         linkedList.getNode("6");
         System.err.println(linkedList);
+    }
+
+    @Test
+    public void test3() throws InvocationTargetException, IllegalAccessException {
+        Class<?> clazz = Peple.class;
+        Peple p = new Peple();
+        Method[] methods = clazz.getDeclaredMethods();
+        for (Method method : methods){
+            System.out.println(method.getName());
+            Object[] args = new Object[0];
+            Object invoke = method.invoke(p, args);
+            System.out.println(invoke);
+        }
+    }
+
+    @Test
+    public void test4(){
+        double d = 0.98D;
+        String[] languages = {"zh-CN", "en-US"};
+        for (String language : languages){
+            System.err.println(DiscountFormatUtil.format(d, language ));
+        }
     }
 }
