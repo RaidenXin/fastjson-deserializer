@@ -1,7 +1,5 @@
 package com.raiden.util;
 
-import java.text.DecimalFormat;
-
 /**
  * @创建人:Raiden
  * @Descriotion:

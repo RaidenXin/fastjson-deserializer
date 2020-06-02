@@ -1,9 +1,8 @@
 package com.raiden;
 
-import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.parser.deserializer.CustomizeJSON;
 import com.raiden.model.*;
-import com.raiden.util.DiscountFormatUtil;
+import com.raiden.util.SnowFlakeUtils;
 import org.junit.jupiter.api.Test;
 
 import java.lang.reflect.InvocationTargetException;
@@ -24,7 +23,7 @@ public class AppTest {
         System.err.println(longestPalindrome(str));
     }
 
-    public String longestPalindrome(String s) {
+    public String longestPalindrome2(String s) {
         if (s.equals(""))
             return "";
         String origin = s;
@@ -92,10 +91,10 @@ public class AppTest {
                 "\t\t\"url\": \"www.baidu.com\",\n" +
                 "\t\t\"contents\": [\"I18nKey:1\", \"I18nKey:2\"]\n" +
                 "\t}],\n" +
-                "\t\"memberId\":\"2020\"\n" +
+                "\t\"memberId \":\"2020\"\n" +
                 "}";
-        Administration administration = CustomizeJSON.parseObject(string, Administration.class);
-        System.err.println(administration);
+        Map map = CustomizeJSON.parseObject(string, CustomizeMap.class);
+        System.err.println(map);
     }
 
     @Test
@@ -129,10 +128,125 @@ public class AppTest {
 
     @Test
     public void test4(){
-        double d = 0.98D;
-        String[] languages = {"zh-CN", "en-US"};
-        for (String language : languages){
-            System.err.println(DiscountFormatUtil.format(d, language ));
+        String str = "aaaa";
+        System.err.println(longestPalindrome(str));
+    }
+    public String longestPalindrome(String s){
+        if (s == null){
+            return s;
+        }
+        int length = s.length();
+        if (length == 0 || length == 1){
+            return s;
+        }
+        char[] chars = s.toCharArray();
+        if (length == 2 && chars[0] == chars[1]){
+            return s;
+        }
+        int maxlen = 1;
+        int index = 0;
+        int right;
+        int left;
+        for (int i = 0,n = chars.length; i < n; i++) {
+            right = i + 1;
+            left = i - 1;
+            while (left > -1 && right < n && chars[left] == chars[right]){
+                if (right - left + 1 > maxlen){
+                    maxlen = right - left + 1;
+                    index = left;
+                }
+                left--;
+                right++;
+            }
+            right = i + 1;
+            left = i;
+            while (left > -1 && right < n && chars[left] == chars[right]){
+                if (right - left + 1 > maxlen){
+                    maxlen = right - left + 1;
+                    index = left;
+                }
+                left--;
+                right++;
+            }
+        }
+        return s.substring(index, index + maxlen);
+    }
+
+    @Test
+    public void test5(){
+        String str = "PAYPALISHIRING";
+        System.err.println(convert2(str, 3));
+        assert "PAHNAPLSIIGYIR".equals(convert2(str, 3));
+    }
+
+    public String convert1(String s, int numRows) {
+        if (numRows == 1){
+            return s;
+        }
+        int length = s.length();
+        if (s == null || length < numRows){
+            return s;
+        }
+        char[] cs = s.toCharArray();
+        char[] chars = new char[length];
+        int size = 0;
+        for (int i = 0; i < numRows; i++) {
+            int sign = 0;
+            int index;
+            while ((index = sign * (numRows - 1) + i) < length){
+                chars[size++] = cs[index];
+                if (i != 0 && i != numRows - 1 && (index = index + ((numRows - 1 - i) << 1)) < length){
+                    chars[size++] = cs[index];
+                }
+                sign+=2;
+            }
+        }
+        return new String(chars);
+    }
+
+    public String convert2(String s, int numRows) {
+        if (numRows == 1){
+            return s;
+        }
+        int length = s.length();
+        if (s == null || length < numRows){
+            return s;
+        }
+        StringBuilder[] builders = new StringBuilder[numRows];
+        for (int i = 0; i < numRows; i++) {
+            builders[i] = new StringBuilder(i == 0 ? length : length / numRows + 1);
+        }
+        int index = 0;
+        boolean sign = true;
+        for (int i = 0; i < length; i++) {
+            builders[index].append(s.charAt(i));
+            if (index == 0){
+                sign = true;
+            }else if (index == numRows - 1){
+                sign = false;
+            }
+            if (sign){
+                index++;
+            }else {
+                index--;
+            }
+        }
+        StringBuilder builder = builders[0];
+        for (int i = 1; i < numRows; i++) {
+            builder.append(builders[i]);
+        }
+        return builder.toString();
+    }
+
+
+    @Test
+    public void test6(){
+        String[] str = {"1","2","3"};
+        String[] s = new String[5];
+        System.arraycopy(str, 0, s, 0, 3);
+        for (String sss : s) {
+            System.err.println(sss);
         }
     }
+
 }

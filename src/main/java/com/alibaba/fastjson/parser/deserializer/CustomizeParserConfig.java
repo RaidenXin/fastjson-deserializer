@@ -51,8 +51,8 @@ public class CustomizeParserConfig extends ParserConfig {
         JsonDeserializer i18N = clazz.getAnnotation(JsonDeserializer.class);
         if (i18N != null){
             Class<? extends DeserializerValueMutator>[] classes = i18N.valueMutators();
-            if (this.valueMutators == null && classes != null){
-                List<DeserializerValueMutator> mutators = new ArrayList<>();
+            if (classes != null && classes.length > 0){
+                List<DeserializerValueMutator> mutators = new ArrayList<>(classes.length);
                 for (Class<? extends DeserializerValueMutator> c : classes) {
                     try {
                         DeserializerValueMutator mutator = c.newInstance();
@@ -61,7 +61,20 @@ public class CustomizeParserConfig extends ParserConfig {
                         //如果创建失败了就忽略掉这次错误
                     }
                 }
-                this.valueMutators = mutators.toArray(new DeserializerValueMutator[]{});
+                int size = mutators.size();
+                if (size > 0){
+                    //判断原来是否有值 如果有 就合并成一组
+                    if (valueMutators != null){
+                        DeserializerValueMutator[] newValueMutators = new DeserializerValueMutator[size + valueMutators.length];
+                        System.arraycopy(valueMutators, 0, newValueMutators, 0, valueMutators.length);
+                        for (int i = 0; i < size; i++) {
+                            newValueMutators[valueMutators.length + i] = mutators.get(i);
+                        }
+                        this.valueMutators = newValueMutators;
+                    }else {
+                        this.valueMutators = mutators.toArray(new DeserializerValueMutator[]{});
+                    }
+                }
             }
             if (valueMutators != null){
                 return new JavaBeanDeserializer(this, clazz);
