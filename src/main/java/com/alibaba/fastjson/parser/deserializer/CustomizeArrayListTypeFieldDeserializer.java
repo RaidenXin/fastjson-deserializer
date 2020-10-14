@@ -210,6 +210,9 @@ public class CustomizeArrayListTypeFieldDeserializer extends FieldDeserializer{
             value = ((String) value).trim();
         }
         try {
+            /**
+             * 如果值修改器数组中存在值修改器实例，就遍历该数组，依次调用所有的修改器的 process方法
+             */
             if (valueMutators != null && valueMutators.length > 0){
                 for (DeserializerValueMutator mutator : valueMutators){
                     value = mutator.process(object,fieldInfo.field.getAnnotations(), fieldInfo.name, value);

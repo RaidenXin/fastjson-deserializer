@@ -40,6 +40,7 @@ public class CustomizeParserConfig extends ParserConfig {
      * @param fieldInfo
      * @return
      */
+    @Override
     public FieldDeserializer createFieldDeserializer(ParserConfig mapping, //
                                                      JavaBeanInfo beanInfo, //
                                                      FieldInfo fieldInfo) {
@@ -71,6 +72,7 @@ public class CustomizeParserConfig extends ParserConfig {
      * @param type
      * @return
      */
+    @Override
     public ObjectDeserializer createJavaBeanDeserializer(Class<?> clazz, Type type) {
         //获取要反序列化类上的标识注解
         JsonDeserializer jsonDeserializer = clazz.getAnnotation(JsonDeserializer.class);
