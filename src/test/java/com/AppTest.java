@@ -1,6 +1,7 @@
-package com.raiden;
+package com;
 
 import com.alibaba.fastjson.parser.deserializer.CustomizeJSON;
+import com.raiden.CoustomizeValueMutator;
 import com.raiden.model.*;
 import org.junit.jupiter.api.Test;
 
@@ -16,7 +17,7 @@ import java.util.*;
 public class AppTest {
 
     @Test
-    public void testFastJosn() throws Throwable {
+    public void testFastJosn() {
         String userStr = "{\n" +
                 "\t\"id\":\"I18nKey:20200411001\",\n" +
                 "\t\"name\":\"I18nKey:张三\",\n" +
