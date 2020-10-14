@@ -1,7 +1,6 @@
 package com.raiden.model;
 
 import com.alibaba.fastjson.parser.deserializer.JsonDeserializer;
-import com.raiden.CoustomizeValueMutator;
 import lombok.Getter;
 import lombok.Setter;
 
