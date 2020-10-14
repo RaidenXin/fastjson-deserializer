@@ -9,7 +9,7 @@ import java.lang.annotation.Target;
  * @创建人:Raiden
  * @Descriotion:
  * @Date:Created in 22:25 2020/4/17
- * @Modified By:
+ * @Modified By: 反序列化值修改标识注解
  */
 @Retention(RetentionPolicy.RUNTIME)
 @Target({ ElementType.TYPE })

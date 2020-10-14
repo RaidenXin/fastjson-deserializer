@@ -9,7 +9,7 @@ import java.lang.reflect.Type;
  * @创建人:Raiden
  * @Descriotion:
  * @Date:Created in 22:12 2020/5/1
- * @Modified By:
+ * @Modified By: 反序列化工具类
  */
 public final class CustomizeJSON {
 

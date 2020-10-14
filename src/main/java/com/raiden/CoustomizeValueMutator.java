@@ -22,9 +22,9 @@ public class CoustomizeValueMutator implements DeserializerValueMutator {
     }
     @Override
     public Object process(Object object, Annotation[] annotations, String name, Object value) {
-        if (value instanceof ArrayList){
+        if (value instanceof List){
             List list = new ArrayList();
-            for (Object o : (ArrayList) value){
+            for (Object o : (List) value){
                 list.add(DeserializerUtils.deserializer(o, dataSource));
             }
             return list;

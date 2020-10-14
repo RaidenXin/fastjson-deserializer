@@ -12,7 +12,7 @@ import java.util.List;
  * @创建人:Raiden
  * @Descriotion:
  * @Date:Created in 21:52 2020/4/17
- * @Modified By:
+ * @Modified By: 自定义fastjson 解析配置类 这个类是核心
  */
 public class CustomizeParserConfig extends ParserConfig {
 
@@ -21,7 +21,7 @@ public class CustomizeParserConfig extends ParserConfig {
     public CustomizeParserConfig(){
     }
 
-    public CustomizeParserConfig(DeserializerValueMutator[] valueMutators){
+    public CustomizeParserConfig(DeserializerValueMutator... valueMutators){
         super();
         this.valueMutators = valueMutators;
     }
@@ -48,9 +48,9 @@ public class CustomizeParserConfig extends ParserConfig {
     }
 
     public ObjectDeserializer createJavaBeanDeserializer(Class<?> clazz, Type type) {
-        JsonDeserializer i18N = clazz.getAnnotation(JsonDeserializer.class);
-        if (i18N != null){
-            Class<? extends DeserializerValueMutator>[] classes = i18N.valueMutators();
+        JsonDeserializer jsonDeserializer = clazz.getAnnotation(JsonDeserializer.class);
+        if (jsonDeserializer != null){
+            Class<? extends DeserializerValueMutator>[] classes = jsonDeserializer.valueMutators();
             if (classes != null && classes.length > 0){
                 List<DeserializerValueMutator> mutators = new ArrayList<>(classes.length);
                 for (Class<? extends DeserializerValueMutator> c : classes) {

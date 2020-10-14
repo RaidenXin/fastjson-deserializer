@@ -17,7 +17,7 @@ import java.util.concurrent.atomic.AtomicLong;
  * @创建人:Raiden
  * @Descriotion:
  * @Date:Created in 0:13 2020/4/18
- * @Modified By:
+ * @Modified By: 替代fastjson中 对象反序列化处理类
  */
 public class CustomizeDefaultFieldDeserializer extends DefaultFieldDeserializer {
 

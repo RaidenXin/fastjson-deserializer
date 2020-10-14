@@ -1,6 +1,5 @@
 package com.raiden;
 
-import com.alibaba.fastjson.parser.deserializer.CustomizeStaticConfig;
 import org.apache.commons.lang3.StringUtils;
 
 import java.util.Map;
