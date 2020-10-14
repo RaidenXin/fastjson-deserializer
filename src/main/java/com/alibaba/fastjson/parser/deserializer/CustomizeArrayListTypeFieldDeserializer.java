@@ -27,7 +27,7 @@ public class CustomizeArrayListTypeFieldDeserializer extends FieldDeserializer{
     private DeserializerValueMutator[] valueMutators;
     private ObjectDeserializer deserializer;
 
-    public CustomizeArrayListTypeFieldDeserializer(ParserConfig mapping, Class<?> clazz, FieldInfo fieldInfo,DeserializerValueMutator[] valueMutators){
+    public CustomizeArrayListTypeFieldDeserializer(Class<?> clazz, FieldInfo fieldInfo,DeserializerValueMutator[] valueMutators){
         super(clazz, fieldInfo);
         this.valueMutators = valueMutators;
         Type fieldType = fieldInfo.fieldType;
