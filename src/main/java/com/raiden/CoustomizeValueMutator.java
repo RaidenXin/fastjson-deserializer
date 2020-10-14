@@ -25,6 +25,9 @@ public class CoustomizeValueMutator implements DeserializerValueMutator {
         if (value instanceof List){
             List list = new ArrayList();
             for (Object o : (List) value){
+                if (!(o instanceof String)){
+                    return value;
+                }
                 list.add(DeserializerUtils.deserializer(o, dataSource));
             }
             return list;

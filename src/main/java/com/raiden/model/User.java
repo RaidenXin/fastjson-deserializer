@@ -17,7 +17,7 @@ import java.util.List;
 @Setter
 public class User {
 
-    private String a;
+    private String name;
     private String id;
     private String student;
     private List<String> contents;
@@ -26,7 +26,7 @@ public class User {
     @Override
     public String toString() {
         return "User{" +
-                "a='" + a + '\'' +
+                "name='" + name + '\'' +
                 ", id='" + id + '\'' +
                 ", student='" + student + '\'' +
                 ", contents='" + contents.toString() + '\'' +
